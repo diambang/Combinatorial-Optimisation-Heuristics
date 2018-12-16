@@ -1,6 +1,6 @@
 import pyodbc
 
 conn = pyodbc.connect("Driver={SQL Server};"
-                      "Server=DESKTOP-HLH64SV;"
+                      "Server=MyPC;"
                       "Database=dataset;"
                       "Trusted_Connection=yes;")
