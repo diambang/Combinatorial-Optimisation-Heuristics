@@ -1,0 +1,24 @@
+import matplotlib.pyplot as plt
+import pyodbc
+import pandas as pd
+
+conn = pyodbc.connect("Driver={SQL Server};"
+                      "Server=DESKTOP-HLH64SV;"
+                      "Database=dataset;"
+                      "Trusted_Connection=yes;")
+#cluster jam akses
+cursor = conn.cursor()
+cursor.execute("SELECT distinct DATEPART(hour, waktu)as jam,count (DATEPART(hour, waktu)) as jumlah from mhs group by  DATEPART(hour, waktu)order by jam asc")
+rows = cursor.fetchall()
+
+df = pd.DataFrame( [[ij for ij in i] for i in rows] )
+df.rename(columns={0: 'jam', 1: 'Jumlah'}, inplace=True)
+y = df['Jumlah']
+x = df['jam']
+
+plt.bar(x, y)
+
+plt.xlabel('Jam', fontsize=8)
+plt.ylabel('Jumlah ', fontsize=8)
+plt.title("Jumlah Akses Mahasiswa Perjam")
+plt.show()
